@@ -1,5 +1,5 @@
 # Technologies-and-methods-of-programming
-## Technologies and methods of programming. Practice 1
+## Practice 1
 ### Task
 
 1.develop an abstract data type based on a singly linked linear list, the link type is an **array**, the way of organization is a **queue**
