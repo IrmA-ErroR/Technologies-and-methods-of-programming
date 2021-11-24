@@ -97,10 +97,10 @@ void Queue::show()
 	Node* current = last;
 	while (current != nullptr)
 	{
-		cout << current << endl;
+		//cout << current << endl;
 		cout << current->data << endl;
-		cout << current->next << endl;
-		cout << endl;
+		//cout << current->next << endl;
+		//cout << endl;
 		current = current->next;
 	}
 }
@@ -261,6 +261,7 @@ int List::getter(int index)
 
 	if (empty() != 1)
 	{
+		Node* node = last;
 		int size_1 = length;
 		int value1 = NULL;
 		if (index <= length)
@@ -271,17 +272,19 @@ int List::getter(int index)
 				{
 					value1 = get_last();
 				}
+				node = node->next;
 			}
 			cout << "Значение: " << value1 << endl;
 			return value1;
 
 		}
 
-		else { cout << "Очередь пуста!" << endl; }
+		else { cout << "Индекс превышает длину списка" << endl; }
 
 		return 0;
 
 	}
+	else { cout << "Очередь пуста" << endl; }
 }
 
 void List::setter(int index, int value)
@@ -290,20 +293,21 @@ void List::setter(int index, int value)
 	{
 		if (index <= length)
 		{
-			Node* temp = last;
+			Node* current = last;
+			Node* newItem = new Node;
 			int size_1 = length;
 			for (int i = 1; i < size_1; i++)
 			{
-				if (i == index-1)
+				if (i = index - 1)
 				{
-					temp->data = value;
-					cout << temp << endl;
-					cout << temp->data << endl;
-					cout << temp->next << endl;
-					cout << endl;
-					
+					newItem->next = current->next;
+					newItem->data = value;
+					current->next = newItem;
 				}
-				temp = temp->next;
+				current = current->next;
+				i++;
+				length++;
+
 			}
 		}
 		else
@@ -322,8 +326,5 @@ void List::setter(int index, int value)
 			}
 		}
 	}
-	else 
-	{ 
-		cout << "Очередь пуста!" << endl; 
-	}
+	else { cout << "Очередь пуста!" << endl;}
 }
