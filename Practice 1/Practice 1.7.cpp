@@ -13,7 +13,7 @@
 
 using namespace std;
 
-struct Node
+struct Node  
 {
 	int data; //поле данных
 	Node* next; // указатель на следующий элемент
@@ -37,14 +37,14 @@ public:
 	~Queue() {};
 
 	bool empty();
-	void puch_back(int x);
+	void push_back(int x); 
 	void show();
 	void del();
-	int get_last();
+	int get_last(); 
 
 	int Max();
 	int Min();
-
+	
 };
 
 class List : public Queue
@@ -69,9 +69,9 @@ int main()
 	srand(time(NULL));
 	for (int i = 0; i < len; i++)
 	{
-		myL.puch_back(random_input(LOW, HIGH));
+		myL.push_back(random_input(LOW, HIGH));
 	}
-
+	
 	//myL.show();
 	//myL.del();
 	myL.show();
@@ -80,6 +80,7 @@ int main()
 	cout << "Max: " << max << endl;
 	cout << "Min: " << min << endl;
 	myL.sort(min, max);
+	myL.show();
 	cout << "Введите индекс элемента (get): " << endl;
 	cin >> index;
 	myL.getter(index);
@@ -104,16 +105,15 @@ void Queue::show()
 		//cout << endl;
 		current = current->next;
 	}
-	cout << endl;
 }
 
 
-bool Queue::empty()
-{
+bool Queue::empty() 
+{	
 	return first == nullptr;
 }
 
-void Queue::puch_back(int x)
+void Queue::push_back(int x)
 {
 	cout << "Добавление элемента в конец" << endl;
 	Node* newItem = new Node;
@@ -129,7 +129,7 @@ void Queue::puch_back(int x)
 		last->next = newItem;
 		last = newItem;
 	}
-	++length;
+	++length; 
 }
 
 
@@ -184,21 +184,20 @@ void List::sort(int min, int max)
 	cout << "Сортировка" << endl;
 	int min_key = min;
 	int max_key = max;
-	
+
 	int size = max - min + 1;
 	int* arr = new int[size];
 	int* brr = new int[size];
 	int length_1 = length;
 
 	cout << "С 1" << endl; //потом убрать
-
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < size; i++)
 	{
 		arr[i] = 0;
+		cout << arr[i] << " ";
 	}
-
 	cout << "\nС 2" << endl; //потом убрать
-	
+
 	Node* cur = first;
 	for (int j = 0; j < length; j++)
 	{
@@ -230,36 +229,44 @@ void List::sort(int min, int max)
 	}
 	cout << "\nС 4" << endl; //потом убрать
 
-	for (int i = 0; i < size; ++i) //потом убрать
+	for (int i = 0; i < size; ++i)
 	{
 		brr[i] = 0;
 	}
+
 	cur = first;
 	for (int i = 0; i < length; i++)
 	{
-		int z = cur->data - min;
-		brr[arr[z]] = cur->data;
-		arr[z]++;
-		cur = cur->next;
-		cout << "i-" << i << " " << brr[i] << endl;
+		while (cur != nullptr)
+		{
+			int z = (cur->data) - min_key;
+			brr[arr[z]] = cur->data; //только 1 элемент в массиве 
+			++arr[z];
+			cur = cur->next;
+			cout << "i-" << i << " " << brr[i] << endl;
+		}
 	}
 
 	cout << "С 5" << endl; //потом убрать
 	cur = first;
 	for (int i = 0; i < length; i++)
 	{
-		cur->data = brr[i];
-		cur = cur->next;
+		while (cur != nullptr)
+		{
+			cur->data = brr[i];
+			cur = cur->next;
+		}
 	}
 
 	delete[] arr;
 	delete[] brr;
+
 }
 
 int List::getter(int index)
 {
 
-	if (!empty())
+	if (empty() != 1)
 	{
 		Node* node = first;
 		int size_1 = length;
@@ -284,11 +291,7 @@ int List::getter(int index)
 		return 0;
 
 	}
-	else 
-	{ 
-		cout << "Очередь пуста" << endl; 
-		return -1;
-	}
+	else { cout << "Очередь пуста" << endl; }
 }
 
 void List::setter(int index, int value)
@@ -297,7 +300,7 @@ void List::setter(int index, int value)
 	{
 		if (index <= length)
 		{
-			Node* current = last;
+			Node* current = first;
 			Node* newItem = new Node;
 			int size_1 = length;
 			for (int i = 1; i < size_1; i++)
@@ -318,17 +321,17 @@ void List::setter(int index, int value)
 		{
 			if (index == length + 1)
 			{
-				puch_back(value);
-			}
+				push_back(value);
+			}				
 			else
 			{
 				for (int i = length + 1; i < index; i++)
 				{
-					puch_back(0);
+					push_back(0);
 				}
-				puch_back(value);
+				push_back(value);
 			}
 		}
 	}
-	else { cout << "Очередь пуста!" << endl; }
+	else { cout << "Очередь пуста!" << endl;}
 }
