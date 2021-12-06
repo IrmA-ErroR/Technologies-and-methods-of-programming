@@ -191,10 +191,10 @@ void List::sort(int min, int max)
 
 	int size = max - min + 1;
 	int* arr = new int[size];
-	int* brr = new int[size];
+	int* brr = new int[length];
 	int length_1 = length;
 
-	cout <<  " c1";
+	cout <<  " c1 ";
 	for (int i = 0; i < size; i++) //обнуление вспомогательного массива
 	{
 		arr[i] = 0;
@@ -257,21 +257,22 @@ void List::sort(int min, int max)
 	}
 
 
-	cout << " c5" << endl;
+ 	cout << " c5" << endl;
 	cur = first;	
 	int curSortedItem = 0;
-	while (cur != nullptr && curSortedItem < size) //перенос data по вычесленным индексам
+	while (cur != nullptr && curSortedItem < length) //перенос data по вычесленным индексам
 	{
 		cur->data = brr[curSortedItem];
+		cout << brr[curSortedItem] << " ";
 		cur = cur->next;
 
 		++curSortedItem; 
-	} 
-	delete[] arr; //очиска памяти
-	delete[] brr;
+	}
+	delete [] brr;
+	delete [] arr; 
 }
 
-int List::getter(int index) //неправильно
+int List::getter(int index) //?
 {
 	if (empty() != 1)
 	{
@@ -279,29 +280,33 @@ int List::getter(int index) //неправильно
 		int size_1 = length;
 		int value1 = NULL;
 		if (index <= length)
-		{
-			for (int i = 1; i < size_1+1 ; i++)
+		{	
+			for (int i = 1; i < size_1+1; i++)
 			{
 				if (i == index)
 				{
-					value1 = get_last();
+					value1 = node->data ;
+					
 				}
-				if (index != 1)
-				{
-					push_back(del());
-				}
-				//node = node->next;
+				node = node->next;
 			}
 			cout << "Значение: " << value1 << endl;
 			return value1;
 		}
-		else { cout << "Неправильный индекс" << endl; }
+		else 
+		{ 
+			cout << "Неправильный индекс" << endl; 
+		}
+
+	}
+	else
+	{
+		cout << "Очередь пуста" << endl;
 		return 0;
 	}
-	else { cout << "Очередь пуста" << endl; }
 }
 
-void List::setter(int index, int value)
+void List::setter(int index, int value)//ломается
 {
 	if (empty() != 1)
 	{
