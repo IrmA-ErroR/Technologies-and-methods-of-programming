@@ -88,7 +88,7 @@ int main()
 	cin >> value;
 	myL.setter(index, value);
 	myL.show();
-	myL.del();
+	//myL.del();
 	myL.show();
 	return 0;
 }
@@ -306,7 +306,7 @@ int List::getter(int index) //?
 	}
 }
 
-void List::setter(int index, int value)//ломается
+void List::setter(int index, int value)
 {
 	if (empty() != 1)
 	{
@@ -314,18 +314,20 @@ void List::setter(int index, int value)//ломается
 		{
 			Node* current = first;
 			Node* newItem = new Node;
-			int size_1 = length;
-			for (int i = 0; i < size_1; i++)
+			//int size_1 = length;
+			for (int i = 1; i < length + 1; i++)
 			{
-				if (i == index - 1)
+				if (i == index - 1 )
 				{
 					newItem->next = current->next; 
 					newItem->data = value;
 					current->next = newItem;
+					i++;
+					length++;
 				}
 				current = current->next;
-				i++;
-				length++;
+				
+				
 			}
 		}
 		else
