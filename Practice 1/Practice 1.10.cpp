@@ -4,8 +4,6 @@
 #include <chrono>
 #include "windows.h"
 
-
-
 #define random_input(l,h) (rand() % (h) - (l))
 
 #define LOW (0)
@@ -23,7 +21,6 @@ struct Node
 		data = x; //1
 		next = y; //1
 	}
-
 };
 
 class Queue
@@ -31,9 +28,9 @@ class Queue
 public:
 	Node* first = nullptr; //указатель на первый элемент очереди 
 	Node* last = nullptr; // указатель на последний элемент очереди  
-	int length = 0; // счетчик длины очереди 
-	// Счетчик колличества операций
+	int length = 0; // счетчик длины очереди
 
+	// Счетчик количества операций
 	unsigned long long int N_op = 0;
 
 	Queue() {}; //конструктор //1
@@ -46,8 +43,7 @@ public:
 	int get_last(); //вывод последнего элемента
 
 	int Max(); //получение максимума
-	int Min(); //получение минимума
-	
+	int Min(); //получение минимума	
 };
 
 class List : public Queue
@@ -56,7 +52,6 @@ public:
 	int getter(int index); // получение значения по индексу
 	void setter(int index, int value); //добавление нового элемента в середину
 	void sort(int x, int y); // сортировка
-
 };
 
 class Timer
@@ -76,7 +71,6 @@ public:
 		std::chrono::duration<float> time = end - start;
 		cout << " Время сортировки: " << time.count() << " s ";
 	}
-
 };
 
 int main()
@@ -84,14 +78,12 @@ int main()
 	setlocale(LC_ALL, "rus");
 	cout << "Поехали!\n";
 	int len = 1;
-	cout << "Вседите длину списка: \n";
-	cin >> len;
 	int index = 0;
 	int value = 0;
 	List myL;
-	/*while (len > 0)
+	while (len > 0)
 	{
-		cout << "Вседите длину списка: \n";
+		cout << "Введите длину списка: \n";
 		cin >> len;
 		srand(time(NULL));
 		if (len > 0)
@@ -100,11 +92,11 @@ int main()
 			{
 				myL.push_back(random_input(LOW, HIGH)); //заполнение очереди рандомными значениями
 			}
+			myL.N_op = 0;
 			int min = myL.Min();
 			int max = myL.Max();
-			//cout << "Max: " << max << endl;
-			//cout << "Min: " << min << endl;
-			cout << "Cортировкa: " << index + 1 << " Колличество элементов : " << len;
+			cout << "Cортировкa: " << index + 1 << " Количество элементов : " << len;
+			myL.N_op = 0;
 			myL.sort(min, max);
 			cout << " N_op: " << myL.N_op << endl;
 			++index;
@@ -112,8 +104,8 @@ int main()
 		}
 		else 
 			break; 
-	}*/
-	for (int i = 0; i < len; i++)
+	}
+	/*for (int i = 0; i < len; i++)
 	{
 		myL.push_back(random_input(LOW, HIGH)); //заполнение очереди рандомными значениями
 	}
@@ -134,7 +126,7 @@ int main()
 	myL.setter(index, value);
 	myL.show();
 	myL.del();
-	myL.show();
+	myL.show();*/
 		
 	return 0;
 }
@@ -153,7 +145,6 @@ void Queue::show() // вывод очереди
 	}	
 	N_op += 6 * length + 11;
 }
-
 
 //1
 bool Queue::empty() //проверка на пустоту 
@@ -248,12 +239,13 @@ void List::sort(int min, int max)
 	int* arr = new int[size]; //3
 	int* brr = new int[length]; //3
 	int length_1 = length;
-
+	N_op += 8;
 	//2+3*size+3 = 3*size +5
 	for (int i = 0; i < size; i++) //обнуление вспомогательного массива
 	{
 		arr[i] = 0; //1
 	}
+	N_op += 3 * size + 5;
 
 	//1+2+(length+1)(8*length +11) = 8*length^2 +19*length +14
 	Node* cur = first; //1
@@ -269,6 +261,7 @@ void List::sort(int min, int max)
 			cur = cur->next; //2
 		}
 	}
+	N_op += 8 * length ^ 2 + 19 * length + 14;
 
 	//3+(6*(s-1+1)= 6*size +3
 	for (int i = size - 1; i >= 0; --i) //вычисление новых индексов
@@ -283,7 +276,8 @@ void List::sort(int min, int max)
 	{
 		brr[i] = 0; //1
 	}
-	
+	N_op += 3 * size + 5;
+
 	//1+(1+3+1+2+2+2)*(length +1) = 11*length +12
 	cur = first;	//1
 	while (cur != nullptr) //копирование data в вспомогательный массив 
@@ -294,11 +288,12 @@ void List::sort(int min, int max)
 		cur = cur->next; //2
 		++arr[z]; //2
 	}
-	
+	N_op += 11 * length + 12;
+
 	//1+1+3+(length +1)*(3+2+2+2+) + 1+1 = 9*length +16
 	cur = first;	//1
 	int curSortedItem = 0; //1
-	while (cur != nullptr && curSortedItem < length) //перенос data по вычесленным индексам
+	while (cur != nullptr && curSortedItem < length) //перенос data по вычисленным индексам
 	{
 		cur->data = brr[curSortedItem]; //2
 		cur = cur->next; //2
